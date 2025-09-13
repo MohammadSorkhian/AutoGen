@@ -1,5 +1,6 @@
-import os
+import os, asyncio
 from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
+from autogen_core.models import UserMessage
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -9,14 +10,6 @@ azure_openAI_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
 azure_openAI_deployment_name = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME")
 azure_openAI_api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
 
-azure_search_endpoint = os.environ.get("AZURE_SEARCH_ENDPOINT")
-azure_search_key = os.environ.get("AZURE_SEARCH_KEY")
-azure_search_deployment_name = os.environ.get("AZURE_SEARCH_DEPLOYMENT_NAME") 
-
-vector_dimension = 1536  # Dimension for text-embedding-3-small
-datafile = "./Data"
-azure_search_index_name = "rag-1756588180789"
-
 
 
 model_client = AzureOpenAIChatCompletionClient(
@@ -25,3 +18,11 @@ model_client = AzureOpenAIChatCompletionClient(
     api_key=azure_openAI_api_key,
     api_version=azure_openAI_api_version,
 )
+
+
+
+if __name__ == "__main__":
+    result = asyncio.run(model_client.create([UserMessage(content="This is a test message reply with 'Hello World!'", source="user")]))
+    print(result.content)
+    
+ 
