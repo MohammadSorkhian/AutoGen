@@ -12,7 +12,7 @@ azure_openAI_api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
 
 
 
-model_client = AzureOpenAIChatCompletionClient(
+AzureOpenAI_model = AzureOpenAIChatCompletionClient(
     azure_endpoint=azure_openAI_endpoint,
     model=azure_openAI_deployment_name,
     api_key=azure_openAI_api_key,
@@ -22,7 +22,7 @@ model_client = AzureOpenAIChatCompletionClient(
 
 
 if __name__ == "__main__":
-    result = asyncio.run(model_client.create([UserMessage(content="This is a test message reply with 'Hello World!'", source="user")]))
+    result = asyncio.run(AzureOpenAI_model.create([UserMessage(content="This is a test message reply with 'Hello World!'", source="user")]))
     print(result.content)
     
  

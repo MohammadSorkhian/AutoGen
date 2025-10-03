@@ -10,7 +10,7 @@ azure_openAI_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
 azure_openAI_api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
 
 
-openAI_client = AzureOpenAI(
+openAI_model= AzureOpenAI(
     azure_endpoint=azure_openAI_endpoint,
     api_key=azure_openAI_api_key,
     api_version=azure_openAI_api_version,
