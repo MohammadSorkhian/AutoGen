@@ -2,12 +2,15 @@ from autogen_agentchat.agents import AssistantAgent, UserProxyAgent
 from modelsAndClients.azureOpenAIChatCompletion_model import AzureOpenAI_model
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.conditions import TextMentionTermination
+from autogen_agentchat.ui import Console
+import asyncio
 
 # Defining the steps
 # 1. Interviewer Agent  -> Assistant Agent
 # 2. Candidate Agent  -> User Proxy Agent
 # 3. Career Coach Agent -> Assistant Agent
 # 4. Group Chat
+# 5. Run the Group Chat
 
 job_position = "Software Developer"
 
@@ -43,8 +46,19 @@ career_coach_agent = AssistantAgent(
 )
 
 ##### 4. Group Chat #####
-group_chat = RoundRobinGroupChat(
+team_roundrobin = RoundRobinGroupChat(
     participants=[interviewer_agent, candidate_agent, career_coach_agent],
     termination_condition=TextMentionTermination(text="TERMINATE"),
     max_turns=15
 )
+
+##### 5. Run the Group Chat #####
+stream = team_roundrobin.run_stream(task="Conducting an interview for a Software Engineer position.") 
+    
+async def main():
+    await Console(stream)
+    
+if __name__ == "__main__":
+    asyncio.run(main()) 
+
+     
