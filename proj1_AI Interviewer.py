@@ -49,16 +49,18 @@ career_coach_agent = AssistantAgent(
 team_roundrobin = RoundRobinGroupChat(
     participants=[interviewer_agent, candidate_agent, career_coach_agent],
     termination_condition=TextMentionTermination(text="TERMINATE"),
-    max_turns=15
+    max_turns=15,
 )
 
 ##### 5. Run the Group Chat #####
-stream = team_roundrobin.run_stream(task="Conducting an interview for a Software Engineer position.") 
-    
+stream = team_roundrobin.run_stream(
+    task="Conducting an interview for a Software Engineer position."
+)
+
+
 async def main():
     await Console(stream)
-    
-if __name__ == "__main__":
-    asyncio.run(main()) 
 
-     
+
+if __name__ == "__main__":
+    asyncio.run(main())
